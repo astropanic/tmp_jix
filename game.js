@@ -37,7 +37,15 @@ game = {
 
   graphicsSetup: function(){
     console.log("graphicSetup begin");
+    (function animationLoop(){
+      window.requestAnimationFrame(animationLoop, canvas);
+      game.redraw();
+    })();
     console.log("graphicSetup done");
+  },
+
+  redraw: function(){
+
   }
 
 }
