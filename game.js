@@ -13,6 +13,7 @@ clear = function(){
 game = {
 
   init: function(){
+    this.clock = new Clock();
     this.boardSetup();
     this.playerSetup();
     this.keysSetup();
@@ -45,7 +46,7 @@ game = {
   },
 
   redraw: function(){
-
+    game.clock.tick();
   }
 
 }
