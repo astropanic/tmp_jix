@@ -25,7 +25,15 @@ player = {
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'black';
     ctx.stroke();
-  }
+  },
+  move_up: function(){
+  },
+  move_down: function(){
+  },
+  move_left: function(){
+  },
+  move_right: function(){
+  },
 }
 
 
