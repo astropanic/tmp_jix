@@ -22,6 +22,19 @@ game = {
 
   boardSetup: function(){
     clear();
+    ctx.beginPath();
+    ctx.rect(0,0,800,600);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(400, 600, 5, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'green';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#003300';
+    ctx.stroke();
+
     console.log("boardSetup begin");
     console.log("boardSetup done");
   },
@@ -37,15 +50,14 @@ game = {
   },
 
   graphicsSetup: function(){
-    console.log("graphicSetup begin");
     (function animationLoop(){
       window.requestAnimationFrame(animationLoop, canvas);
       game.redraw();
     })();
-    console.log("graphicSetup done");
   },
 
   redraw: function(){
+
     game.clock.tick();
   }
 
