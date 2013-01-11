@@ -14,26 +14,46 @@ player = {
   init: function(){
     this.x = 400;
     this.y = 600;
+    this.delta_x = 0;
+    this.delta_y = 0;
+    this.moved   = false;
     return this;
   },
   draw: function(){
     ctx.stroke();
     ctx.beginPath();
-    ctx.arc(400, 600, 5, 0, 2 * Math.PI, false);
+    ctx.arc(player.x, player.y, 5, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'red';
     ctx.fill();
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'black';
     ctx.stroke();
   },
+
+  move: function(){
+    player.x = player.x + player.delta_x ;
+    player.y = player.y + player.delta_y ;
+  },
   move_up: function(){
+    player.delta_y = -1;
+    player.delta_x = 0;
   },
   move_down: function(){
+    player.delta_y = 1;
+    player.delta_x = 0;
   },
   move_left: function(){
+    player.delta_y = 0;
+    player.delta_x = -1;
   },
   move_right: function(){
+    player.delta_y = 0;
+    player.delta_x = 1;
   },
+  stop: function(){
+    player.delta_x = 0;
+    player.delta_y = 0;
+  }
 }
 
 
@@ -77,9 +97,13 @@ game = {
     })();
   },
 
-  redraw: function(){
-
+  redraw: function(i){
     game.clock.tick();
+    game.player.move_up();
+    game.player.move();
+    clear();
+    game.player.draw();
+    console.log(player.y);
   }
 
 }
