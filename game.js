@@ -5,6 +5,23 @@ canvas.height = 600;
 
 var ctx = canvas.getContext("2d");
 
+var need_redraw = false;
+
+Key = {
+
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+
+  onKeydown: function(event){
+    if(event.keyCode == Key.LEFT) { player.move_left()  };
+    if(event.keyCode == Key.RIGHT){ player.move_right() };
+    if(event.keyCode == Key.UP)   { player.move_up()    };
+    if(event.keyCode == Key.DOWN) { player.move_down()  };
+  }
+}
+
 clear = function(){
     ctx.fillStyle = "#CCC";
     ctx.fillRect( 0, 0, canvas.width, canvas.height );
@@ -14,8 +31,11 @@ player = {
   init: function(){
     this.x = 400;
     this.y = 600;
+    this.dst_x = this.x;
+    this.dst_y = this.y;
+    this.speed   = 150;
     this.delta_x = 0;
-    this.delta_y = 0;
+    this.delta_y = -1;
     this.moved   = false;
     return this;
   },
@@ -30,8 +50,20 @@ player = {
   },
 
   move: function(){
-    player.x = player.x + player.delta_x;
-    player.y = player.y + player.delta_y;
+    player.dst_x = player.dst_x + player.delta_x * player.distance;
+    player.dst_y = player.dst_y + player.delta_y * player.distance;
+
+    var int_x = Math.ceil(player.dst_x);
+    var int_y = Math.ceil(player.dst_y);
+
+    if(int_x != player.x) {
+      player.x = int_x;
+      need_redraw = true;
+    }
+    if(int_y != player.y) {
+      player.y = int_y;
+      need_redraw = true;
+    }
   },
   move_up: function(){
     player.delta_y = -1;
@@ -58,13 +90,22 @@ player = {
 
 game = {
 
+  timing: function(){
+    var now    = Date.now();
+    game.delta = (now - game.then) / 1000;
+    game.then  = now;
+  },
+
   init: function(){
+    this.then   = Date.now();
     this.clock  = new Clock();
     this.player = player.init();
     this.boardSetup();
     this.playerSetup();
     this.keysSetup();
     this.graphicsSetup();
+
+    window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
   },
 
   boardSetup: function(){
@@ -92,14 +133,19 @@ game = {
   graphicsSetup: function(){
     (function animationLoop(){
       window.requestAnimationFrame(animationLoop, canvas);
-      game.redraw();
+      game.timing();
+      game.player.distance = player.speed * game.delta;
+      game.player.move();
+      if(need_redraw){
+        clear();
+        game.player.draw();
+        need_redraw = false;
+      }
     })();
   },
 
   redraw: function(){
     game.clock.tick();
-    clear();
-    game.player.draw();
     game.player.move_up();
     game.player.move();
   }
