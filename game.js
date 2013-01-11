@@ -10,10 +10,30 @@ clear = function(){
     ctx.fillRect( 0, 0, canvas.width, canvas.height );
 }
 
+player = {
+  init: function(){
+    this.x = 400;
+    this.y = 600;
+    return this;
+  },
+  draw: function(){
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(400, 600, 5, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'black';
+    ctx.stroke();
+  }
+}
+
+
 game = {
 
   init: function(){
-    this.clock = new Clock();
+    this.clock  = new Clock();
+    this.player = player.init();
     this.boardSetup();
     this.playerSetup();
     this.keysSetup();
@@ -21,21 +41,14 @@ game = {
   },
 
   boardSetup: function(){
+    console.log("boardSetup begin");
     clear();
     ctx.beginPath();
     ctx.rect(0,0,800,600);
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'black';
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(400, 600, 5, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'green';
-    ctx.fill();
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#003300';
-    ctx.stroke();
+    game.player.draw();
 
-    console.log("boardSetup begin");
     console.log("boardSetup done");
   },
 
