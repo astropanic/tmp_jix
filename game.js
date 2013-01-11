@@ -20,7 +20,6 @@ player = {
     return this;
   },
   draw: function(){
-    ctx.stroke();
     ctx.beginPath();
     ctx.arc(player.x, player.y, 5, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'red';
@@ -31,8 +30,8 @@ player = {
   },
 
   move: function(){
-    player.x = player.x + player.delta_x ;
-    player.y = player.y + player.delta_y ;
+    player.x = player.x + player.delta_x;
+    player.y = player.y + player.delta_y;
   },
   move_up: function(){
     player.delta_y = -1;
@@ -97,13 +96,12 @@ game = {
     })();
   },
 
-  redraw: function(i){
+  redraw: function(){
     game.clock.tick();
-    game.player.move_up();
-    game.player.move();
     clear();
     game.player.draw();
-    console.log(player.y);
+    game.player.move_up();
+    game.player.move();
   }
 
 }
