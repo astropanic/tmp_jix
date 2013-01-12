@@ -1,3 +1,10 @@
+if(!Array.prototype.last) {
+  Array.prototype.last = function() {
+    return this[this.length - 1];
+  }
+}
+
+
 var canvas = document.getElementById('game');
 
 canvas.width  = 800;
@@ -15,6 +22,7 @@ Key = {
   DOWN: 40,
 
   onKeydown: function(event){
+    player.pts.push([player.x, player.y]);
     if(event.keyCode == Key.LEFT) { player.move_left()  };
     if(event.keyCode == Key.RIGHT){ player.move_right() };
     if(event.keyCode == Key.UP)   { player.move_up()    };
@@ -37,6 +45,8 @@ player = {
     this.delta_x = 0;
     this.delta_y = -1;
     this.moved   = false;
+    this.pts = [[400,600]];
+
     return this;
   },
   draw: function(){
@@ -47,6 +57,7 @@ player = {
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'black';
     ctx.stroke();
+
   },
 
   move: function(){
@@ -56,12 +67,16 @@ player = {
     var int_x = Math.ceil(player.dst_x);
     var int_y = Math.ceil(player.dst_y);
 
+    var last = player.pts.length -1;
+
     if(int_x != player.x) {
       player.x = int_x;
+      player.pts[last][0] = player.x;
       need_redraw = true;
     }
     if(int_y != player.y) {
       player.y = int_y;
+      player.pts[last][1] = player.y;
       need_redraw = true;
     }
   },
@@ -105,7 +120,8 @@ game = {
     this.keysSetup();
     this.graphicsSetup();
 
-    window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
+    window.addEventListener('keydown', function(event) {
+      Key.onKeydown(event); }, false);
   },
 
   boardSetup: function(){
@@ -138,6 +154,14 @@ game = {
       game.player.move();
       if(need_redraw){
         clear();
+        ctx.beginPath();
+        ctx.moveTo(player.pts[0][0], player.pts[0][1]);
+        for(var i = 0 ; i < player.pts.length; i++) {
+          ctx.lineTo(player.pts[i][0], player.pts[i][1]);
+        }
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
         game.player.draw();
         need_redraw = false;
       }
