@@ -7,8 +7,8 @@ if(!Array.prototype.last) {
 
 var canvas = document.getElementById('game');
 
-canvas.width  = 800;
-canvas.height = 600;
+canvas.width  = 400;
+canvas.height = 300;
 
 var ctx = canvas.getContext("2d");
 
@@ -37,15 +37,15 @@ clear = function(){
 
 player = {
   init: function(){
-    this.x = 400;
-    this.y = 600;
+    this.x = 200;
+    this.y = 300;
     this.dst_x = this.x;
     this.dst_y = this.y;
-    this.speed   = 150;
+    this.speed   = 200;
     this.delta_x = 0;
     this.delta_y = -1;
     this.moved   = false;
-    this.pts = [[400,600]];
+    this.pts = [[200,300]];
 
     return this;
   },
@@ -126,11 +126,29 @@ game = {
 
   boardSetup: function(){
     console.log("boardSetup begin");
+    game.polygons = [[[0,0],[0,300],[400,300],[400,0],[0,0]]];
+    game.board = {
+      draw: function(){
+        var count = game.polygons.length;
+        for(var i = 0 ; i < count ; i++){
+          var edges = game.polygons[i].length;
+          ctx.beginPath();
+          ctx.moveTo(game.polygons[i][0][0], game.polygons[i][0][1]);
+          for(var j = 1 ; j < edges ; j++){
+            ctx.lineTo(game.polygons[i][j][0], game.polygons[i][j][1]);
+          }
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'black';
+          ctx.stroke();
+        }
+      }
+    };
     clear();
     ctx.beginPath();
-    ctx.rect(0,0,800,600);
-    ctx.lineWidth = 1;
+    ctx.rect(0,0,400,300);
+    ctx.lineWidth = 3;
     ctx.strokeStyle = 'black';
+    ctx.stroke();
     game.player.draw();
 
     console.log("boardSetup done");
@@ -162,6 +180,7 @@ game = {
         ctx.lineWidth = 3;
         ctx.strokeStyle = 'black';
         ctx.stroke();
+        game.board.draw();
         game.player.draw();
         need_redraw = false;
       }
