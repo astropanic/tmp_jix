@@ -41,9 +41,9 @@ player = {
     this.y = 300;
     this.dst_x = this.x;
     this.dst_y = this.y;
-    this.speed   = 200;
+    this.speed   = 80;
     this.delta_x = 0;
-    this.delta_y = -1;
+    this.delta_y = 0;
     this.moved   = false;
     this.pts = [[200,300]];
 
@@ -54,7 +54,7 @@ player = {
     ctx.arc(player.x, player.y, 5, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'red';
     ctx.fill();
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = 'black';
     ctx.stroke();
 
@@ -129,26 +129,22 @@ game = {
     game.polygons = [[[0,0],[0,300],[400,300],[400,0],[0,0]]];
     game.board = {
       draw: function(){
+        ctx.beginPath();
         var count = game.polygons.length;
         for(var i = 0 ; i < count ; i++){
           var edges = game.polygons[i].length;
-          ctx.beginPath();
           ctx.moveTo(game.polygons[i][0][0], game.polygons[i][0][1]);
-          for(var j = 1 ; j < edges ; j++){
+          for(var j = 0 ; j < edges ; j++){
             ctx.lineTo(game.polygons[i][j][0], game.polygons[i][j][1]);
           }
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 1;
         ctx.strokeStyle = 'black';
           ctx.stroke();
         }
       }
     };
     clear();
-    ctx.beginPath();
-    ctx.rect(0,0,400,300);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
+    game.board.draw();
     game.player.draw();
 
     console.log("boardSetup done");
@@ -177,7 +173,7 @@ game = {
         for(var i = 0 ; i < player.pts.length; i++) {
           ctx.lineTo(player.pts[i][0], player.pts[i][1]);
         }
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         ctx.strokeStyle = 'black';
         ctx.stroke();
         game.board.draw();
