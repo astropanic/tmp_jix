@@ -126,20 +126,28 @@ game = {
 
   boardSetup: function(){
     console.log("boardSetup begin");
-    game.polygons = [[[0,0],[0,300],[400,300],[400,0],[0,0]]];
+    game.polygons = [
+      [[0,0],[0,300],[400,300],[400,0],[0,0]],
+      [[50,50],[50,250],[350,250],[350,50],[50,50]]
+      ];
     game.board = {
       draw: function(){
         ctx.beginPath();
         var count = game.polygons.length;
         for(var i = 0 ; i < count ; i++){
           var edges = game.polygons[i].length;
-          ctx.moveTo(game.polygons[i][0][0], game.polygons[i][0][1]);
-          for(var j = 0 ; j < edges ; j++){
-            ctx.lineTo(game.polygons[i][j][0], game.polygons[i][j][1]);
+          var x1 = game.polygons[i][0][0];
+          var y1 = game.polygons[i][0][1];
+          ctx.moveTo(x1,y1);
+          var xp = x1;
+          var yp = y1;
+          for(var j = 1 ; j < edges ; j++){
+            var x2 = game.polygons[i][j][0];
+            var y2 = game.polygons[i][j][1];
+            ctx.lineTo(x2, y2);
+            ctx.lineWidth = 1;
           }
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = 'black';
-          ctx.stroke();
+            ctx.stroke();
         }
       }
     };
