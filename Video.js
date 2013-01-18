@@ -5,7 +5,7 @@ Video.init = function(documentId, width, height){
   this.canvas.width  = 400;
   this.canvas.height = 300;
   this.ctx           = this.canvas.getContext("2d");
-  this.need_redraw   = false;
+  this.need_redraw   = true;
 }
 
 Video.clear = function(){

@@ -99,10 +99,6 @@ game = {
       [[50,50],[50,250],[350,250],[350,50],[50,50]]
       ];
 
-    Video.clear();
-    Video.drawPolygons(game.polygons);
-    Video.drawPlayer(player.x, player.y);
-
     console.log("boardSetup done");
   },
 
