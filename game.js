@@ -4,15 +4,7 @@ if(!Array.prototype.last) {
   }
 }
 
-
-var canvas = document.getElementById('game');
-
-canvas.width  = 400;
-canvas.height = 300;
-
-var ctx = canvas.getContext("2d");
-
-var need_redraw = false;
+Video.init('game', 400, 300);
 
 Key = {
   onKeydown: function(event){
@@ -38,11 +30,6 @@ Key = {
   }
 }
 
-clear = function(){
-    ctx.fillStyle = "#CCC";
-    ctx.fillRect( 0, 0, canvas.width, canvas.height );
-}
-
 player = {
   init: function(){
     this.x     = 200;
@@ -58,13 +45,7 @@ player = {
     return this;
   },
   draw: function(){
-    ctx.beginPath();
-    ctx.arc(player.x, player.y, 5, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'red';
-    ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'black';
-    ctx.stroke();
+    Video.drawPlayer(player.x, player.y);
   },
 
   move: function(){
@@ -79,12 +60,12 @@ player = {
     if(int_x != player.x) {
       player.x = int_x;
       player.pts[last][0] = player.x;
-      need_redraw = true;
+      Video.need_redraw = true;
     }
     if(int_y != player.y) {
       player.y = int_y;
       player.pts[last][1] = player.y;
-      need_redraw = true;
+      Video.need_redraw = true;
     }
   },
   stop: function(){
@@ -120,43 +101,14 @@ game = {
       [[0,0],[0,300],[400,300],[400,0],[0,0]],
       [[50,50],[50,250],[350,250],[350,50],[50,50]]
       ];
-    game.board = {
-      draw: function(){
-        ctx.beginPath();
-        var count = game.polygons.length;
-        for(var i = 0 ; i < count ; i++){
-          var edges = game.polygons[i].length;
-          var x1 = game.polygons[i][0][0];
-          var y1 = game.polygons[i][0][1];
-          ctx.moveTo(x1,y1);
-          var xp = x1;
-          var yp = y1;
-          for(var j = 1 ; j < edges ; j++){
-            var x2 = game.polygons[i][j][0];
-            var y2 = game.polygons[i][j][1];
-            ctx.lineTo(x2, y2);
-            ctx.strokeStyle = 'red';
-            ctx.lineWidth = 2;
-          }
-            ctx.stroke();
-        }
-      }
-    };
 
     game.path = {
       draw: function(){
-        ctx.beginPath();
-        ctx.moveTo(player.pts[0][0], player.pts[0][1]);
-        for(var i = 0 ; i < player.pts.length; i++) {
-          ctx.lineTo(player.pts[i][0], player.pts[i][1]);
-        }
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'black';
-        ctx.stroke();
+        Video.drawPath(player.pts);
       }
     }
-    clear();
-    game.board.draw();
+    Video.clear();
+    Video.drawPolygons(game.polygons);
     game.player.draw();
 
     console.log("boardSetup done");
@@ -174,16 +126,16 @@ game = {
 
   graphicsSetup: function(){
     (function animationLoop(){
-      window.requestAnimationFrame(animationLoop, canvas);
+      window.requestAnimationFrame(animationLoop, Video.canvas);
       game.timing();
       game.player.distance = player.speed * game.delta;
       game.player.move();
-      if(need_redraw){
-        clear();
+      if(Video.need_redraw){
+        Video.clear();
         game.path.draw();
-        game.board.draw();
+        Video.drawPolygons(game.polygons);
         game.player.draw();
-        need_redraw = false;
+        Video.need_redraw = false;
       }
     })();
   }
