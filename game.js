@@ -15,18 +15,26 @@ var ctx = canvas.getContext("2d");
 var need_redraw = false;
 
 Key = {
-
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40,
-
   onKeydown: function(event){
     player.pts.push([player.x, player.y]);
-    if(event.keyCode == Key.LEFT) { player.move_left()  };
-    if(event.keyCode == Key.RIGHT){ player.move_right() };
-    if(event.keyCode == Key.UP)   { player.move_up()    };
-    if(event.keyCode == Key.DOWN) { player.move_down()  };
+    switch(event.keyCode){
+      case 37: // left
+        player.dx = -1;
+        player.dy =  0;
+      break;
+      case 39: // right
+        player.dx =  1;
+        player.dy =  0;
+      break;
+      case 38: // up
+        player.dx =  0;
+        player.dy = -1;
+      break;
+      case 40: // down
+        player.dx =  0;
+        player.dy =  1;
+      break;
+    }
   }
 }
 
@@ -37,15 +45,15 @@ clear = function(){
 
 player = {
   init: function(){
-    this.x = 200;
-    this.y = 300;
+    this.x     = 200;
+    this.y     = 300;
     this.dst_x = this.x;
     this.dst_y = this.y;
-    this.speed   = 80;
-    this.delta_x = 0;
-    this.delta_y = 0;
-    this.moved   = false;
-    this.pts = [[200,300]];
+    this.speed = 80;
+    this.dx    = 0;
+    this.dy    = 0;
+    this.moved = false;
+    this.pts   = [[200,300]];
 
     return this;
   },
@@ -57,12 +65,11 @@ player = {
     ctx.lineWidth = 2;
     ctx.strokeStyle = 'black';
     ctx.stroke();
-
   },
 
   move: function(){
-    player.dst_x = player.dst_x + player.delta_x * player.distance;
-    player.dst_y = player.dst_y + player.delta_y * player.distance;
+    player.dst_x = player.dst_x + player.dx * player.distance;
+    player.dst_y = player.dst_y + player.dy * player.distance;
 
     var int_x = Math.ceil(player.dst_x);
     var int_y = Math.ceil(player.dst_y);
@@ -80,25 +87,9 @@ player = {
       need_redraw = true;
     }
   },
-  move_up: function(){
-    player.delta_y = -1;
-    player.delta_x = 0;
-  },
-  move_down: function(){
-    player.delta_y = 1;
-    player.delta_x = 0;
-  },
-  move_left: function(){
-    player.delta_y = 0;
-    player.delta_x = -1;
-  },
-  move_right: function(){
-    player.delta_y = 0;
-    player.delta_x = 1;
-  },
   stop: function(){
-    player.delta_x = 0;
-    player.delta_y = 0;
+    player.dx = 0;
+    player.dy = 0;
   }
 }
 
@@ -145,7 +136,8 @@ game = {
             var x2 = game.polygons[i][j][0];
             var y2 = game.polygons[i][j][1];
             ctx.lineTo(x2, y2);
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
           }
             ctx.stroke();
         }
