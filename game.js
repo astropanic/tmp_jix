@@ -143,6 +143,19 @@ game = {
         }
       }
     };
+
+    game.path = {
+      draw: function(){
+        ctx.beginPath();
+        ctx.moveTo(player.pts[0][0], player.pts[0][1]);
+        for(var i = 0 ; i < player.pts.length; i++) {
+          ctx.lineTo(player.pts[i][0], player.pts[i][1]);
+        }
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+      }
+    }
     clear();
     game.board.draw();
     game.player.draw();
@@ -168,14 +181,7 @@ game = {
       game.player.move();
       if(need_redraw){
         clear();
-        ctx.beginPath();
-        ctx.moveTo(player.pts[0][0], player.pts[0][1]);
-        for(var i = 0 ; i < player.pts.length; i++) {
-          ctx.lineTo(player.pts[i][0], player.pts[i][1]);
-        }
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'black';
-        ctx.stroke();
+        game.path.draw();
         game.board.draw();
         game.player.draw();
         need_redraw = false;
