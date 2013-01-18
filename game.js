@@ -104,7 +104,6 @@ game = {
 
   init: function(){
     this.then   = Date.now();
-    this.clock  = new Clock();
     this.player = player.init();
     this.boardSetup();
     this.playerSetup();
@@ -187,14 +186,6 @@ game = {
         need_redraw = false;
       }
     })();
-  },
-
-  redraw: function(){
-    game.clock.tick();
-    game.player.move_up();
-    game.player.move();
   }
-
 }
-
 game.init();
