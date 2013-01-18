@@ -44,9 +44,6 @@ player = {
 
     return this;
   },
-  draw: function(){
-    Video.drawPlayer(player.x, player.y);
-  },
 
   move: function(){
     player.dst_x = player.dst_x + player.dx * player.distance;
@@ -102,14 +99,9 @@ game = {
       [[50,50],[50,250],[350,250],[350,50],[50,50]]
       ];
 
-    game.path = {
-      draw: function(){
-        Video.drawPath(player.pts);
-      }
-    }
     Video.clear();
     Video.drawPolygons(game.polygons);
-    game.player.draw();
+    Video.drawPlayer(player.x, player.y);
 
     console.log("boardSetup done");
   },
@@ -132,9 +124,9 @@ game = {
       game.player.move();
       if(Video.need_redraw){
         Video.clear();
-        game.path.draw();
+        Video.drawPath(player.pts);
         Video.drawPolygons(game.polygons);
-        game.player.draw();
+        Video.drawPlayer(player.x, player.y);
         Video.need_redraw = false;
       }
     })();
