@@ -11,3 +11,10 @@ describe("polygon.edges", function(){
     expect(p.lines()).toEqual([new Line([0,0],[0,100]), new Line([0,100],[100,100]), new Line([100,100],[100,0]), new Line([100,0],[0,0])]);
   });
 });
+
+describe("polygon.bbox", function(){
+  it("return bounding box", function(){
+    var p = new Polygon([[0,0],[0,100],[100,100],[100,0]]);
+    expect(p.bbox()).toEqual([[0,0],[100,100]]);
+  });
+});
