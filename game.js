@@ -13,18 +13,22 @@ Key = {
       case 37: // left
         player.dx = -1;
         player.dy =  0;
+        player.ping();
       break;
       case 39: // right
         player.dx =  1;
         player.dy =  0;
+        player.ping();
       break;
       case 38: // up
         player.dx =  0;
         player.dy = -1;
+        player.ping();
       break;
       case 40: // down
         player.dx =  0;
         player.dy =  1;
+        player.ping();
       break;
     }
   }
@@ -68,6 +72,21 @@ player = {
   stop: function(){
     player.dx = 0;
     player.dy = 0;
+  },
+
+  ping: function(){
+    if(player.dx ==  0 && player.dy == -1){
+      console.log('up');
+    };
+    if(player.dx ==  0 && player.dy ==  1){
+      console.log('down');
+    };
+    if(player.dx == -1 && player.dy ==  0){
+      console.log('left');
+    };
+    if(player.dx ==  1 && player.dy ==  0){
+      console.log('right');
+    };
   }
 }
 
