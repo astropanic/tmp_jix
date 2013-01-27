@@ -15,7 +15,7 @@ Video.clear = function(){
 
 Video.drawPlayer = function(x, y){
   this.ctx.beginPath();
-  this.ctx.arc(player.x, player.y, 5, 0, 2 * Math.PI, false);
+  this.ctx.arc(Player.x, Player.y, 5, 0, 2 * Math.PI, false);
   this.ctx.fillStyle = 'red';
   this.ctx.fill();
   this.ctx.lineWidth = 2;
@@ -25,9 +25,9 @@ Video.drawPlayer = function(x, y){
 
 Video.drawPath = function(pts){
   this.ctx.beginPath();
-  this.ctx.moveTo(pts[0][0], pts[0][1]);
+  this.ctx.moveTo(pts[0].x, pts[0].y);
   for(var i = 0 ; i < pts.length; i++) {
-    this.ctx.lineTo(pts[i][0], pts[i][1]);
+    this.ctx.lineTo(pts[i].x, pts[i].y);
   }
   this.ctx.lineWidth = 2;
   this.ctx.strokeStyle = 'black';
