@@ -35,3 +35,6 @@ Polygon.prototype.bbox = function(){
   return [[this.x_min, this.y_min], [this.x_max, this.y_max]];
 };
 
+Polygon.prototype.size = function(){
+  return this.coords.length;
+}

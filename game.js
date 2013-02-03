@@ -53,8 +53,8 @@ game = {
   boardSetup: function(){
     console.log("boardSetup begin");
     game.polygons = [
-      [[0,0],[0,300],[400,300],[400,0],[0,0]],
-      [[50,50],[50,250],[350,250],[350,50],[50,50]]
+      new Polygon([[0,0],[0,300],[400,300],[400,0],[0,0]]),
+      new Polygon([[50,50],[50,250],[350,250],[350,50],[50,50]])
       ];
 
     console.log("boardSetup done");

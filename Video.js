@@ -39,15 +39,16 @@ Video.drawPolygons = function(polygons){
   this.ctx.beginPath();
   var count = polygons.length;
   for(var i = 0 ; i < count ; i++){
-    var edges = polygons[i].length;
-    var x1 = polygons[i][0][0];
-    var y1 = polygons[i][0][1];
+    var polygon = polygons[i];
+    var edges = polygon.size();
+    var x1 = polygon.coords[0][0];
+    var y1 = polygon.coords[0][1];
     this.ctx.moveTo(x1,y1);
     var xp = x1;
     var yp = y1;
     for(var j = 1 ; j < edges ; j++){
-      var x2 = polygons[i][j][0];
-      var y2 = polygons[i][j][1];
+      var x2 = polygon.coords[j][0];
+      var y2 = polygon.coords[j][1];
       this.ctx.lineTo(x2, y2);
       this.ctx.strokeStyle = 'red';
       this.ctx.lineWidth = 2;
