@@ -1,11 +1,23 @@
 var Video = {}
 
 Video.init = function(documentId, width, height){
-  this.canvas        = document.getElementById(documentId);
-  this.canvas.width  = 400;
-  this.canvas.height = 300;
-  this.ctx           = this.canvas.getContext("2d");
-  this.need_redraw   = true;
+  this.canvas           = document.getElementById(documentId);
+  this.canvas.width     = 400;
+  this.canvas.height    = 300;
+  this.clipboard        = document.createElement('canvas');
+  this.clipboard.width  = this.canvas.width;
+  this.clipboard.height = this.canvas.height;
+  this.ctx              = this.canvas.getContext("2d");
+  this.btx              = this.clipboard.getContext("2d");
+  this.need_redraw      = true;
+}
+
+Video.save = function(){
+  this.btx.drawImage(this.canvas, 0, 0);
+}
+
+Video.load = function(){
+  this.ctx.drawImage(this.clipboard, 0, 0);
 }
 
 Video.clear = function(){

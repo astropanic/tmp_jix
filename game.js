@@ -80,6 +80,7 @@ game = {
         Video.clear();
         Video.drawPath(Player.pts);
         Video.drawPolygons(game.polygons);
+	Video.save();
         Video.drawPlayer(Player.x, Player.y);
         Video.need_redraw = false;
       }
